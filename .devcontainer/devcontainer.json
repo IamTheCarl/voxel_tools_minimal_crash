@@ -1,0 +1,37 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.217.4/containers/ubuntu
+{
+	"name": "Ubuntu",
+	"build": {
+		"dockerfile": "Dockerfile",
+		// Update 'VARIANT' to pick an Ubuntu version: hirsute, focal, bionic
+		// Use hirsute or bionic on local arm64/Apple Silicon.
+		"args": { "VARIANT": "focal" }
+	},
+	"runArgs": [
+		"--net=host",
+		"--privileged"
+	],
+	"mounts": [
+		"source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind",
+		"source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind",
+		"source=${localEnv:HOME}/.gitconfig,target=/home/vscode/.gitconfig,type=bind",
+		"source=/etc/alsa,target=/etc/alsa,type=bind",
+		"source=/usr/share/alsa,target=/usr/share/alsa,type=bind",
+		"source=/run/user,target=/run/user,type=bind",
+		"source=/dev,target=/dev,type=bind",
+		"source=/lib/modules,target=/lib/modules,type=bind,readonly"
+	],
+	"remoteEnv": {
+		"DISPLAY": "${localEnv:DISPLAY}",
+	},
+
+	"postCreateCommand": ".devcontainer/bringup.sh",
+
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode",
+	"features": {
+		"git": "latest",
+		"git-lfs": "latest"
+	}
+}
